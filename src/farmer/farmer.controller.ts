@@ -11,10 +11,11 @@ import { FarmerService } from './farmer.service';
 import { CreateFarmerDto } from './dto/create-farmer.dto';
 import { UpdateFarmerDto } from './dto/update-farmer.dto';
 import { Farmer } from './entities/farmer.entity';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('farmers')
 @Controller('farmers')
+@ApiBearerAuth()
 export class FarmerController {
   constructor(private readonly farmerService: FarmerService) {}
 

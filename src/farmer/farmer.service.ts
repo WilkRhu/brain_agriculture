@@ -1,10 +1,12 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, UseGuards } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateFarmerDto } from './dto/create-farmer.dto';
 import { UpdateFarmerDto } from './dto/update-farmer.dto';
 import { Farmer } from './entities/farmer.entity';
+import { JwtAuthGuard } from '@/auth/guards/jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard)
 @Injectable()
 export class FarmerService {
   constructor(
