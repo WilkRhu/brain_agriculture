@@ -1,3 +1,6 @@
+import { IsAreaValidConstraint } from '@/auth/decorators/validateConstraintArea.decorato';
+import { IsCpfOrCnpj } from '@/auth/decorators/validationCpfCnpj.decorato';
+import { PlantedCropEnum } from '@/enums/planted-crop.enum';
 import { ApiProperty } from '@nestjs/swagger';
 import {
   IsString,
@@ -10,13 +13,10 @@ import {
   ValidationArguments,
   Validate,
 } from 'class-validator';
-import { IsAreaValidConstraint } from 'src/auth/decorators/validateConstraintArea.decorato';
-import { IsCpfOrCnpj } from 'src/auth/decorators/validationCpfCnpj.decorato';
-import { PlantedCropEnum } from 'src/enums/planted-crop.enum';
-
 export class CreateFarmerDto {
   @ApiProperty({
-    description: 'CPF ou CNPJ do produtor rural',
+    description:
+      'CPF ou CNPJ do produtor rural. Obs:(Lembrar de remover uma das opções no exemplo!)',
     example: '123.456.789-00 ou 12.345.678/0001-99',
   })
   @IsString()

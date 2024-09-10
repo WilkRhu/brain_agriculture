@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import { UserService } from '@/user/user.service';
+import { comparePasswords, hashPassword } from '@/utils/hashing.utils';
+import { extractUserFields } from '@/utils/return.utils';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { UserService } from 'src/user/user.service';
-import { comparePasswords, hashPassword } from 'src/utils/hashing.utils';
-import { extractUserFields } from 'src/utils/return.utils';
 
 @Injectable()
 export class AuthService {
@@ -71,7 +71,7 @@ export class AuthService {
     }
   }
 
-  private async generateToken(user) {
+  public async generateToken(user) {
     const { uuid, name, email, role, status } = user;
     const token = await this.jwtService.signAsync({
       uuid,

@@ -1,10 +1,10 @@
+import { isValidCNPJ, isValidCPF } from '@/utils/cpfAndCnpjValidator';
 import {
   registerDecorator,
   ValidationOptions,
   ValidatorConstraint,
   ValidatorConstraintInterface,
 } from 'class-validator';
-import { isValidCNPJ, isValidCPF } from 'src/utils/cpfAndCnpjValidator';
 
 @ValidatorConstraint({ async: false })
 export class IsCpfOrCnpjConstraint implements ValidatorConstraintInterface {

@@ -15,7 +15,7 @@ export class EnvConfigModule {
         ConfigModule.forRoot({
           ...options,
           envFilePath: [
-            join(__dirname, `../../../../.env.${process.env.NODE_ENV}`),
+            join(__dirname, `../../../.env.${process.env.NODE_ENV}`),
           ],
         }),
       ],

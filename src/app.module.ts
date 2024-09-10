@@ -5,9 +5,14 @@ import { AuthModule } from './auth/auth.module';
 import { FarmerModule } from './farmer/farmer.module';
 import { EnvConfigModule } from './infrastructure/env-config/env-config.module';
 import { DatabaseModule } from './infrastructure/database/database.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      envFilePath: ['.env'],
+      isGlobal: true,
+    }),
     EnvConfigModule,
     UserModule,
     AuthModule,
