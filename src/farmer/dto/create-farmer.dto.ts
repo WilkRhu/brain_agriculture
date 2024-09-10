@@ -2,22 +2,42 @@ import { ApiProperty } from '@nestjs/swagger';
 import {
   IsString,
   IsArray,
+  IsEnum,
   Length,
   Matches,
   ArrayNotEmpty,
+  IsNumber,
+  ValidationArguments,
+  Validate,
 } from 'class-validator';
+import { IsAreaValidConstraint } from 'src/auth/decorators/validateConstraintArea.decorato';
+import { IsCpfOrCnpj } from 'src/auth/decorators/validationCpfCnpj.decorato';
+import { PlantedCropEnum } from 'src/enums/planted-crop.enum';
 
 export class CreateFarmerDto {
   @ApiProperty({
     description: 'CPF ou CNPJ do produtor rural',
-    example: '123.456.789-00',
+    example: '123.456.789-00 ou 12.345.678/0001-99',
   })
   @IsString()
   @Matches(/^\d{3}\.\d{3}\.\d{3}\-\d{2}$|^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$/, {
     message:
       'O CPF deve seguir o formato 000.000.000-00 ou CNPJ 00.000.000/0000-00',
   })
-  document: string;
+  @IsCpfOrCnpj({
+    message: (args: ValidationArguments) => {
+      return `Erro: O valor '${args.value}' no campo '${args.property}' está incorreto. Digite um CPF ou CNPJ válido.`;
+    },
+  })
+  cpfOrCnpj: string;
+
+  @ApiProperty({
+    description: 'Farmer name.',
+    example: 'John Doe',
+  })
+  @IsString()
+  @Length(5, 100)
+  farmerName: string;
 
   @ApiProperty({
     description: 'Nome da fazenda do usuário',
@@ -51,38 +71,34 @@ export class CreateFarmerDto {
     description: 'Área total da fazenda em hectares',
     example: '1500.75',
   })
-  @Matches(/^\d+(\.\d{1,2})?$/, {
-    message: 'A área total deve ser um número decimal com até 2 casas decimais',
-  })
-  field_hectares: string;
+  @IsNumber()
+  totalAreaHectares: number;
 
   @ApiProperty({
     description: 'Área agricultável em hectares',
     example: '1200.50',
   })
-  @Matches(/^\d+(\.\d{1,2})?$/, {
-    message:
-      'A área agricultável deve ser um número decimal com até 2 casas decimais',
-  })
-  field_arable: string;
+  @IsNumber()
+  arableAreaHectares: number;
 
   @ApiProperty({
     description: 'Área de vegetação em hectares',
     example: '300.25',
   })
-  @Matches(/^\d+(\.\d{1,2})?$/, {
-    message:
-      'A área de vegetação deve ser um número decimal com até 2 casas decimais',
-  })
-  field_vegetation_hectares: string;
+  @IsNumber()
+  vegetationAreaHectares: number;
 
   @ApiProperty({
     description: 'Culturas plantadas na fazenda (Soja, Milho, etc.)',
-    example: ['Soja', 'Milho'],
+    example: [PlantedCropEnum.SOY, PlantedCropEnum.CORN],
     isArray: true,
+    enum: PlantedCropEnum,
   })
   @IsArray()
   @ArrayNotEmpty({ message: 'Deve haver ao menos uma cultura plantada' })
-  @IsString({ each: true })
-  platable_crop: string[];
+  @IsEnum(PlantedCropEnum, { each: true })
+  plantedCrops: PlantedCropEnum[];
+
+  @Validate(IsAreaValidConstraint)
+  areaValidation: this;
 }

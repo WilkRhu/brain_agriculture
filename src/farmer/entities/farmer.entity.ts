@@ -1,6 +1,11 @@
 import { PlantedCropEnum } from 'src/enums/planted-crop.enum';
-import { User } from 'src/user/entities/user.entity';
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity()
 export class Farmer {
@@ -34,6 +39,9 @@ export class Farmer {
   @Column({ type: 'simple-array' })
   plantedCrops: PlantedCropEnum[];
 
-  @ManyToOne(() => User, (user) => user.farmers)
-  user: User;
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
 }

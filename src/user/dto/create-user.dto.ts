@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsString, Length } from 'class-validator';
+import { CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
 export class CreateUserDto {
   @ApiProperty({
@@ -10,7 +11,7 @@ export class CreateUserDto {
   })
   @IsString()
   @Length(5, 100)
-  userName: string;
+  username: string;
 
   @ApiProperty({
     description: 'Email do usuário',
@@ -27,4 +28,10 @@ export class CreateUserDto {
   @IsString()
   @Length(6, 100)
   password: string;
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
 }

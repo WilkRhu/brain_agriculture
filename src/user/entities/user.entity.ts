@@ -1,10 +1,18 @@
-import { Farmer } from 'src/farmer/entities/farmer.entity';
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity()
 export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
+
+  @Column({ type: 'varchar', length: 100 })
+  username: string;
 
   @Column({ type: 'varchar', unique: true, length: 100 })
   email: string;
@@ -12,6 +20,9 @@ export class User {
   @Column({ type: 'varchar' })
   password: string;
 
-  @OneToMany(() => Farmer, (farmer) => farmer.user)
-  farmers: Farmer[];
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
 }
