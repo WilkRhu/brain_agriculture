@@ -1,73 +1,87 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Brain Agriculture
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Brain Agriculture é uma aplicação web para o gerenciamento e cadastro de produtores rurais. O projeto é dividido em duas partes principais: um backend (API) e um frontend (React), com integração de banco de dados PostgreSQL. A API está documentada com Swagger para facilitar a visualização e teste dos endpoints.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Sumário
 
-## Description
+1. [Tecnologias Utilizadas](#tecnologias-utilizadas)
+2. [Configuração do Backend](#configuração-do-backend)
+3. [Configuração do Frontend](#configuração-do-frontend)
+4. [Rodando a Aplicação com Docker](#rodando-a-aplicação-com-docker)
+5. [Swagger](#swagger)
+6. [Como Contribuir](#como-contribuir)
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Tecnologias Utilizadas
 
-## Installation
+**Backend:**
+- Node.js com NestJS como framework principal
+- PostgreSQL como banco de dados
+- TypeORM para ORM (Mapeamento Objeto-Relacional)
+- Swagger para documentação da API
+- Docker para containerização
 
-```bash
-$ npm install
+**Frontend:**
+- React como biblioteca de construção da interface
+- Vite como bundler para desenvolvimento rápido
+- Nginx para servir a aplicação em produção
+- Docker para containerização
+
+## Configuração do Backend
+
+### Requisitos
+- Node.js (versão 20+)
+- PostgreSQL (versão 13+)
+
+### Passos para rodar o backend localmente
+
+1. **Instalar dependências:**
+
+   No diretório `brain_agriculture`, execute:
+
+   ```bash
+   npm install
+
+## Configuração do Banco de Dados
+
+1. **Certifique-se de ter o PostgreSQL rodando e crie um banco de dados com o nome `brain_agriculture`.**
+2. **Configure as credenciais de conexão no arquivo `.env` dentro do diretório `brain_agriculture`.**
+
+   Exemplo de um arquivo `.env`:
+
+   ```env
+   POSTGRES_USER=postgres
+   POSTGRES_PASSWORD=123
+   POSTGRES_DB=brain_agriculture
+   POSTGRES_HOST=localhost
+   POSTGRES_PORT=5432
+
+### Swagger
+A documentação da API está disponível em:
 ```
-
-## Running the app
-
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+http://localhost:3001/api
 ```
+#### Através da interface do Swagger, você pode testar os endpoints e verificar a documentação completa da API.
 
-## Test
+Rodando a Aplicação com Docker
+A aplicação está preparada para rodar via Docker, tanto backend quanto frontend, em um ambiente integrado.
 
-```bash
-# unit tests
-$ npm run test
+Passos para Rodar com Docker
+Certifique-se de que o Docker e o Docker Compose estão instalados na sua máquina.
 
-# e2e tests
-$ npm run test:e2e
+No diretório raiz do projeto (onde está o docker-compose.yml), execute:
 
-# test coverage
-$ npm run test:cov
+bash
+Copiar código
+docker-compose up --build
+Isso irá:
+
+Construir e iniciar o backend, frontend e o PostgreSQL.
 ```
+A aplicação backend estará disponível em http://localhost:3001.
+Verificar o Swagger
+O Swagger estará disponível na URL:
 
-## Support
+http://localhost:3001/api
+```
+O Swagger é uma ferramenta para documentar a API de forma interativa. Você pode acessar a documentação e testar os endpoints diretamente pelo navegador.
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
