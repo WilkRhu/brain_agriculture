@@ -15,6 +15,6 @@ export const getDatabaseConfig = (
     database: configService.get<string>('DATABASE_NAME', 'brain_agriculture'),
     entities: [User, Farmer],
     synchronize: true,
-    logging: configService.get<string>('DB_LOGGING', 'false') === 'true',
+    logging: configService.get<string>('DB_LOGGING', 'false') === 'false',
   };
 };
