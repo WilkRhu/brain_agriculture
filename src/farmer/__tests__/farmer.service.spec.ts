@@ -107,4 +107,120 @@ describe('FarmerService', () => {
       );
     });
   });
+
+  describe('countFarmersByMonth', () => {
+    it('should return farmers count per month and total count', async () => {
+      const mockQueryResult = [
+        { month: '2024-01-01T00:00:00.000Z', count: '5' },
+        { month: '2024-02-01T00:00:00.000Z', count: '3' },
+      ];
+
+      repository.createQueryBuilder.mockReturnValue({
+        select: jest.fn().mockReturnThis(),
+        addSelect: jest.fn().mockReturnThis(),
+        where: jest.fn().mockReturnThis(),
+        groupBy: jest.fn().mockReturnThis(),
+        orderBy: jest.fn().mockReturnThis(),
+        getRawMany: jest.fn().mockResolvedValue(mockQueryResult),
+        getRawOne: undefined,
+      });
+
+      const result = await service.countFarmersByMonth();
+
+      expect(result).toEqual({
+        month: { dec: 5, jan: 3 },
+        total: 8,
+      });
+    });
+  });
+
+  describe('getTotalArea', () => {
+    it('should return total area of farmers', async () => {
+      const mockQueryResult = { totalArea: '1234.56' };
+
+      repository.createQueryBuilder.mockReturnValue({
+        select: jest.fn().mockReturnThis(),
+        getRawOne: jest.fn().mockResolvedValue(mockQueryResult),
+        addSelect: undefined,
+        where: undefined,
+        groupBy: undefined,
+        orderBy: undefined,
+        getRawMany: undefined,
+      });
+
+      const result = await service.getTotalArea();
+      expect(result).toEqual(1234.56);
+    });
+
+    it('should return 0 if total area is not found', async () => {
+      const mockQueryResult = { totalArea: null };
+
+      repository.createQueryBuilder.mockReturnValue({
+        select: jest.fn().mockReturnThis(),
+        getRawOne: jest.fn().mockResolvedValue(mockQueryResult),
+        addSelect: undefined,
+        where: undefined,
+        groupBy: undefined,
+        orderBy: undefined,
+        getRawMany: undefined,
+      });
+
+      const result = await service.getTotalArea();
+      expect(result).toEqual(0);
+    });
+  });
+
+  describe('countFarmsByState', () => {
+    it('should return count of farms by state', async () => {
+      const mockQueryResult = [
+        { state: 'CA', count: '10' },
+        { state: 'TX', count: '20' },
+      ];
+
+      repository.createQueryBuilder.mockReturnValue({
+        select: jest.fn().mockReturnThis(),
+        addSelect: jest.fn().mockReturnThis(),
+        groupBy: jest.fn().mockReturnThis(),
+        getRawMany: jest.fn().mockResolvedValue(mockQueryResult),
+        where: undefined,
+        orderBy: undefined,
+        getRawOne: undefined,
+      });
+
+      const result = await service.countFarmsByState();
+      expect(result).toEqual(mockQueryResult);
+    });
+  });
+
+  describe('getFarmCountByCrop', () => {
+    it('should return farm count by planted crops', async () => {
+      const mockFarms = [
+        { plantedCrops: ['corn', 'wheat'] },
+        { plantedCrops: ['wheat'] },
+        { plantedCrops: ['corn'] },
+      ];
+
+      repository.find.mockResolvedValue(mockFarms);
+
+      const result = await service.getFarmCountByCrop();
+      expect(result).toEqual({ corn: 2, wheat: 2 });
+    });
+  });
+
+  describe('getLandUseDistribution', () => {
+    it('should return total arable and vegetation area', async () => {
+      const mockFarms = [
+        { arableAreaHectares: 100, vegetationAreaHectares: 50 },
+        { arableAreaHectares: 200, vegetationAreaHectares: 150 },
+      ];
+
+      repository.find.mockResolvedValue(mockFarms);
+
+      const result = await service.getLandUseDistribution();
+      expect(result).toEqual({
+        arableArea: 300,
+        vegetationArea: 200,
+      });
+    });
+  });
 });

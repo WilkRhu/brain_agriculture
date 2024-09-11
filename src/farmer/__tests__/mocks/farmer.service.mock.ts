@@ -9,15 +9,32 @@ export const mockFarmerService = {
   findFarmerById: jest.fn(),
   updateFarmer: jest.fn(),
   removeFarmer: jest.fn(),
+  countFarmersByMonth: jest.fn(),
+  getTotalArea: jest.fn(),
+  countFarmsByState: jest.fn(),
+  getFarmCountByCrop: jest.fn(),
+  getLandUseDistribution: jest.fn(),
+};
+
+export const mockQueryBuilder = {
+  select: jest.fn().mockReturnThis(),
+  addSelect: jest.fn().mockReturnThis(),
+  where: jest.fn().mockReturnThis(),
+  groupBy: jest.fn().mockReturnThis(),
+  orderBy: jest.fn().mockReturnThis(),
+  getRawMany: jest.fn().mockResolvedValue([]),
+  getRawOne: jest.fn().mockResolvedValue({}),
 };
 
 export const mockRepository = {
   create: jest.fn(),
+  createQueryBuilder: jest.fn(() => mockQueryBuilder),
   save: jest.fn(),
   find: jest.fn(),
   findOne: jest.fn(),
   update: jest.fn(),
   delete: jest.fn(),
+  select: jest.fn(),
 };
 
 export const mockCreateFarmerDto: CreateFarmerDto = {
@@ -50,4 +67,26 @@ export const mockFarmer: Farmer = {
   ...mockCreateFarmerDto,
   createdAt: new Date(),
   updatedAt: new Date(),
+};
+
+export const mockFarmersCount = {
+  month: { jan: 5, feb: 3 },
+  total: 8,
+};
+
+export const mockTotalArea = 100.5;
+
+export const mockFarmsByState = [
+  { state: 'CA', count: 10 },
+  { state: 'TX', count: 20 },
+];
+
+export const mockFarmsByCrop = {
+  corn: 15,
+  wheat: 10,
+};
+
+export const mockLandUseDistribution = {
+  arableArea: 200,
+  vegetationArea: 50,
 };

@@ -4,7 +4,12 @@ import { FarmerController } from '../farmer.controller';
 import { FarmerService } from '../farmer.service';
 import {
   mockCreateFarmerDto,
+  mockFarmersCount,
   mockFarmerService,
+  mockFarmsByCrop,
+  mockFarmsByState,
+  mockLandUseDistribution,
+  mockTotalArea,
   mockUpdateFarmerDto,
 } from './mocks/farmer.service.mock';
 import { mockFarmer } from './mocks/farmer.mock';
@@ -97,6 +102,73 @@ describe('FarmerController', () => {
       const result = await farmerController.removeFarmer('1');
       expect(mockFarmerService.removeFarmer).toHaveBeenCalledWith('1');
       expect(result).toBeUndefined();
+    });
+  });
+
+  describe('getFarmersCountByMonth', () => {
+    it('should return farmers count by month', async () => {
+      mockFarmerService.countFarmersByMonth.mockResolvedValue(mockFarmersCount);
+
+      const result = await farmerController.getFarmersCountByMonth();
+
+      expect(result).toEqual(mockFarmersCount);
+      expect(farmerService.countFarmersByMonth).toHaveBeenCalled();
+    });
+
+    it('should throw an error if countFarmersByMonth fails', async () => {
+      mockFarmerService.countFarmersByMonth.mockRejectedValue(
+        new Error('Failed to get farmers count'),
+      );
+
+      await expect(farmerController.getFarmersCountByMonth()).rejects.toThrow(
+        'Failed to get farmers count by month: Failed to get farmers count',
+      );
+    });
+  });
+
+  describe('getTotalArea', () => {
+    it('should return the total area of all farmers', async () => {
+      mockFarmerService.getTotalArea.mockResolvedValue(mockTotalArea);
+
+      const result = await farmerController.getTotalArea();
+
+      expect(result).toBe(mockTotalArea);
+      expect(farmerService.getTotalArea).toHaveBeenCalled();
+    });
+  });
+
+  describe('getFarmsByState', () => {
+    it('should return farms count by state', async () => {
+      mockFarmerService.countFarmsByState.mockResolvedValue(mockFarmsByState);
+
+      const result = await farmerController.getFarmsByState();
+
+      expect(result).toEqual(mockFarmsByState);
+      expect(farmerService.countFarmsByState).toHaveBeenCalled();
+    });
+  });
+
+  describe('getFarmsByCrop', () => {
+    it('should return farms count by crop', async () => {
+      mockFarmerService.getFarmCountByCrop.mockResolvedValue(mockFarmsByCrop);
+
+      const result = await farmerController.getFarmsByCrop();
+
+      expect(result).toEqual(mockFarmsByCrop);
+      expect(farmerService.getFarmCountByCrop).toHaveBeenCalled();
+    });
+  });
+
+  describe('getLandUseDistribution', () => {
+    it('should return land use distribution', async () => {
+      mockFarmerService.getLandUseDistribution.mockResolvedValue(
+        mockLandUseDistribution,
+      );
+
+      const result = await farmerController.getLandUseDistribution();
+
+      expect(result).toEqual(mockLandUseDistribution);
+      expect(farmerService.getLandUseDistribution).toHaveBeenCalled();
     });
   });
 });
